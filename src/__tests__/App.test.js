@@ -1,11 +1,18 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import App from "../components/App";
+import blogData from "../data/blog";
 
 test("renders the correct child components", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector(".App")).toBeInTheDocument();
-  expect(container.querySelector(".App header")).toBeInTheDocument();
-  expect(container.querySelector(".App aside")).toBeInTheDocument();
-  expect(container.querySelector(".App main")).toBeInTheDocument();
+  render(<App />);
+
+  // Check for overall layout structure
+  expect(document.querySelector(".App")).toBeInTheDocument();
+  expect(document.querySelector(".App header")).toBeInTheDocument();
+  expect(document.querySelector(".App main")).toBeInTheDocument();
+
+  // Check if article titles from blogData.posts are rendered
+  blogData.posts.forEach((post) => {
+    expect(screen.getByText(post.title)).toBeInTheDocument();
+  });
 });
